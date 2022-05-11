@@ -1,0 +1,710 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Inventory Management System API",
+        "description": "Hello my name is Tresten Pool aspiring backend developer. I created this api for my advanced software engineering class",
+        "contact": {
+            "email": "trestenpool@gmail.com"
+        },
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "https://ec2-54-90-227-153.compute-1.amazonaws.com/api/"
+        }
+    ],
+    "paths": {
+        "/device": {
+            "get": {
+                "tags": [
+                    "Devices"
+                ],
+                "summary": "Index search for devices",
+                "description": "The below query parameters are OPTIONAL. Feel free to mix and match",
+                "operationId": "getdeviceList",
+                "parameters": [
+                    {
+                        "name": "pagination",
+                        "in": "query"
+                    },
+                    {
+                        "name": "product_id",
+                        "in": "query"
+                    },
+                    {
+                        "name": "manufacturer_id",
+                        "in": "query"
+                    },
+                    {
+                        "name": "serial_number",
+                        "in": "query"
+                    },
+                    {
+                        "name": "page",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Invalid Body"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Devices"
+                ],
+                "summary": "Store new device",
+                "operationId": "newDevice",
+                "requestBody": {
+                    "description": "Pass in the device info",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "device": {
+                                        "properties": {
+                                            "product_id": {
+                                                "type": "integer"
+                                            },
+                                            "manufacturer_id": {
+                                                "type": "integer"
+                                            },
+                                            "serial_number": {
+                                                "type": "string",
+                                                "default": ""
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Invalid Body"
+                    },
+                    "409": {
+                        "description": "Conflict"
+                    }
+                }
+            }
+        },
+        "/device/{device_id}": {
+            "get": {
+                "tags": [
+                    "Devices"
+                ],
+                "summary": "Get device by ID",
+                "operationId": "getSpecificDevice",
+                "parameters": [
+                    {
+                        "name": "device_id",
+                        "in": "path",
+                        "description": "Device ID",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Invalid Request"
+                    },
+                    "404": {
+                        "description": "Device not found"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Devices"
+                ],
+                "summary": "Update an existing device",
+                "operationId": "updateDevice",
+                "parameters": [
+                    {
+                        "name": "device_id",
+                        "in": "path",
+                        "description": "Device ID",
+                        "required": true
+                    }
+                ],
+                "requestBody": {
+                    "description": "Pass in the device info",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "device": {
+                                        "properties": {
+                                            "product_id": {
+                                                "type": "integer"
+                                            },
+                                            "manufacturer_id": {
+                                                "type": "integer"
+                                            },
+                                            "serial_number": {
+                                                "type": "string",
+                                                "default": ""
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Invalid Body"
+                    },
+                    "404": {
+                        "description": "Device not found"
+                    },
+                    "409": {
+                        "description": "Conflict"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Devices"
+                ],
+                "summary": "Delete a device",
+                "operationId": "deleteDevice",
+                "parameters": [
+                    {
+                        "name": "device_id",
+                        "in": "path",
+                        "description": "Device ID",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Invalid Request"
+                    },
+                    "404": {
+                        "description": "Device not found"
+                    }
+                }
+            }
+        },
+        "/device/{device_id}/file": {
+            "get": {
+                "tags": [
+                    "Device Files"
+                ],
+                "summary": "Show all the files for the device",
+                "operationId": "showAllFiles",
+                "parameters": [
+                    {
+                        "name": "device_id",
+                        "in": "path",
+                        "description": "Device ID",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Invalid Request"
+                    },
+                    "404": {
+                        "description": "Device not found"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Device Files"
+                ],
+                "summary": "Add a file to a device",
+                "operationId": "AddFile",
+                "parameters": [
+                    {
+                        "name": "device_id",
+                        "in": "path",
+                        "description": "Device ID",
+                        "required": true
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "properties": {
+                                    "file": {
+                                        "description": "file",
+                                        "type": "file"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Invalid Request"
+                    },
+                    "404": {
+                        "description": "Device not found"
+                    }
+                }
+            }
+        },
+        "/device/{device_id}/file/{file_id}": {
+            "get": {
+                "tags": [
+                    "Device Files"
+                ],
+                "summary": "Retrieve a downloadable file from the device",
+                "operationId": "showFileByID",
+                "parameters": [
+                    {
+                        "name": "device_id",
+                        "in": "path",
+                        "description": "Device ID",
+                        "required": true
+                    },
+                    {
+                        "name": "file_id",
+                        "in": "path",
+                        "description": "File ID",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Invalid Request"
+                    },
+                    "404": {
+                        "description": "Device or File not found"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Device Files"
+                ],
+                "summary": "Update an existing file",
+                "operationId": "UpdateFile",
+                "parameters": [
+                    {
+                        "name": "device_id",
+                        "in": "path",
+                        "description": "Device ID",
+                        "required": true
+                    },
+                    {
+                        "name": "file_id",
+                        "in": "path",
+                        "description": "File ID",
+                        "required": true
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "properties": {
+                                    "file": {
+                                        "description": "file",
+                                        "type": "file"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Invalid Request"
+                    },
+                    "404": {
+                        "description": "Device or file not found"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Device Files"
+                ],
+                "summary": "Delete a file from a device",
+                "operationId": "DeleteFile",
+                "parameters": [
+                    {
+                        "name": "device_id",
+                        "in": "path",
+                        "description": "Device ID",
+                        "required": true
+                    },
+                    {
+                        "name": "file_id",
+                        "in": "path",
+                        "description": "File ID",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Invalid Request"
+                    },
+                    "404": {
+                        "description": "Device or file not found"
+                    }
+                }
+            }
+        },
+        "/manufacturer": {
+            "get": {
+                "tags": [
+                    "Manufacturers"
+                ],
+                "summary": "Get all the manufacturers",
+                "operationId": "getManufacturerList",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Manufacturers"
+                ],
+                "summary": "Store a new manufacturer",
+                "operationId": "storeNewManufacturer",
+                "requestBody": {
+                    "description": "Pass in the manufacturer name",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "manufacturer": {
+                                        "properties": {
+                                            "name": {
+                                                "type": "string",
+                                                "default": ""
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Invalid request body"
+                    },
+                    "409": {
+                        "description": "Conflict, there is already a manufacturer with that name"
+                    }
+                }
+            }
+        },
+        "/manufacturer/{manufacturer_id}": {
+            "get": {
+                "tags": [
+                    "Manufacturers"
+                ],
+                "summary": "Get manufacturer by manufacturer_id",
+                "operationId": "GetManufacturer",
+                "parameters": [
+                    {
+                        "name": "manufacturer_id",
+                        "in": "path",
+                        "description": "Manufacturer id",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "The manufacturer id route parameter is not valid. Must be numeric.."
+                    },
+                    "404": {
+                        "description": "manufacturer not found"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Manufacturers"
+                ],
+                "summary": "Update manufacturer by manufacturer_id",
+                "operationId": "updateManufacturer",
+                "parameters": [
+                    {
+                        "name": "manufacturer_id",
+                        "in": "path",
+                        "description": "Manufacturer id",
+                        "required": true
+                    }
+                ],
+                "requestBody": {
+                    "description": "Pass in the manufacturer name",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "manufacturer": {
+                                        "properties": {
+                                            "name": {
+                                                "type": "string",
+                                                "default": ""
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Invalid request body"
+                    },
+                    "404": {
+                        "description": "manufacturer not found"
+                    },
+                    "409": {
+                        "description": "Conflict, there is already a manufacturer with that name"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Manufacturers"
+                ],
+                "summary": "Delete manufacturer by manufacturer_id",
+                "operationId": "DeleteManufacturer",
+                "parameters": [
+                    {
+                        "name": "manufacturer_id",
+                        "in": "path",
+                        "description": "Manufacturer id",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "404": {
+                        "description": "manufacturer not found with the given ID"
+                    }
+                }
+            }
+        },
+        "/product": {
+            "get": {
+                "tags": [
+                    "Products"
+                ],
+                "summary": "Get all the products",
+                "operationId": "getProductsList",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Products"
+                ],
+                "summary": "Store a new product",
+                "operationId": "storeNewProduct",
+                "requestBody": {
+                    "description": "Pass in the product name",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "product": {
+                                        "properties": {
+                                            "name": {
+                                                "type": "string",
+                                                "default": ""
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Invalid request body"
+                    },
+                    "409": {
+                        "description": "Conflict, there is already a product with that name"
+                    }
+                }
+            }
+        },
+        "/product/{product_id}": {
+            "get": {
+                "tags": [
+                    "Products"
+                ],
+                "summary": "Get product by product id",
+                "operationId": "GetProductID",
+                "parameters": [
+                    {
+                        "name": "product_id",
+                        "in": "path",
+                        "description": "Product id",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "The product id route parameter is not valid. Must be numeric.."
+                    },
+                    "404": {
+                        "description": "Product not found"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Products"
+                ],
+                "summary": "Update an existing product",
+                "operationId": "updateProduct",
+                "parameters": [
+                    {
+                        "name": "product_id",
+                        "in": "path",
+                        "description": "Product id",
+                        "required": true
+                    }
+                ],
+                "requestBody": {
+                    "description": "Pass in the product name",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "product": {
+                                        "properties": {
+                                            "name": {
+                                                "type": "string",
+                                                "default": ""
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Invalid request body"
+                    },
+                    "404": {
+                        "description": "Product with the id provided was not found"
+                    },
+                    "409": {
+                        "description": "Conflict, there is already a product with that name"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Products"
+                ],
+                "summary": "Delete a product by it's ID",
+                "operationId": "DeleteProduct",
+                "parameters": [
+                    {
+                        "name": "product_id",
+                        "in": "path",
+                        "description": "Product id",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "404": {
+                        "description": "Product not found"
+                    }
+                }
+            }
+        }
+    }
+}

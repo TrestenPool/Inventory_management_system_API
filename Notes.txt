@@ -1,0 +1,59 @@
+/*** THINGS TO KEEP IN MIND ***/
+Header 'Accept' must be set to 'application/json'
+
+/*** TODO ***/
+
+
+
+
+/****** DEVICES ********/
+GET all devices
+/device ?product="" & manufacturer="" & serialNumber=""
+
+POST insert a new device
+/device
+
+GET device by id
+/device/{id}
+
+PATH update existing device
+/device/{id}
+
+DELETE delete device by id
+/device/{id}
+
+
+/****** PRODUCTS ********/
+GET all products
+/product
+
+POST insert new product
+/product
+** body **
+product[name] = 'product name variable'
+
+GET certain product
+/product/{id}
+
+PATCH update an existing product
+/product/{id}
+
+DELETE delete a product
+/product/{id}
+
+
+/****** MANUFACTUERS ********/
+GET all manufacturers
+/manufacturer
+
+POST insert new manufacturer
+/manufacturer
+
+GET certain manufacturer
+/manufacturer/{id}
+
+PATCH update an existing manufacturer
+/manufacturer/{id}
+
+DELETE delete a manufacturer
+/manufacturer/{id}

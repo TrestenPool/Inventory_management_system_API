@@ -1,0 +1,189 @@
+# Base url where all the urls start from
+# @baseUrl = http://127.0.0.1:3000
+@baseUrl = https://ec2-54-90-227-153.compute-1.amazonaws.com
+
+
+# Variables to make easier
+@productID = 1
+@manufacturerID = 1
+
+@deviceID = 3
+@fileID = 26
+
+
+####################################################
+###################### PRODUCTS ####################
+####################################################
+# Get all products
+GET {{baseUrl}}/api/product HTTP/1.1
+content-type: application/json
+
+###
+# Create new product
+POST {{baseUrl}}/api/product HTTP/1.1
+content-type: application/json
+
+{
+  "product": {
+    "name": "computer"
+  }
+}
+
+###
+# Get device by id
+GET {{baseUrl}}/api/product/{{productID}} HTTP/1.1
+content-type: application/json
+
+###
+# UPDATE device by id
+PUT {{baseUrl}}/api/product/{{productID}} HTTP/1.1
+content-type: application/json
+
+{
+  "product": {
+    "name": "computer"
+  }
+}
+
+###
+# DELETE device by id
+DELETE {{baseUrl}}/api/product/{{productID}} HTTP/1.1
+content-type: application/json
+
+
+####################################################
+#################### MANUFACTURER ##################
+####################################################
+### 
+# Manufacturer index page
+GET {{baseUrl}}/api/manufacturer HTTP/1.1
+content-type: application/json
+
+
+###
+# Create new Manufacturer
+POST {{baseUrl}}/api/manufacturer HTTP/1.1
+content-type: application/json
+
+{
+  "manufacturer": {
+    "name": "Test"
+  }
+}
+
+###
+# GET Manufacturer by ID
+GET {{baseUrl}}/api/manufacturer/{{manufacturerID}} HTTP/1.1
+content-type: application/json
+
+
+###
+# UPDATE a Manufacturer
+PUT {{baseUrl}}/api/manufacturer/{{manufacturerID}} HTTP/1.1
+content-type: application/json
+
+{
+  "manufacturer": {
+    "name": "Microsoft"
+  }
+}
+
+###
+# DELETE a Manufacturer
+DELETE {{baseUrl}}/api/manufacturer/{{manufacturerID}} HTTP/1.1
+content-type: application/json
+
+
+
+
+
+
+####################################################
+####################### DEVICES ####################
+####################################################
+
+# DEVICE index page
+GET {{baseUrl}}/api/device HTTP/1.1
+content-type: application/json
+
+###
+# DEVICE store a new device
+POST {{baseUrl}}/api/device HTTP/1.1
+content-type: application/json
+
+{
+  "device": {
+    "product_id": 1,
+    "manufacturer_id": 1,
+    "serial_number": "11111111111111111111111111111111"
+  }
+}
+
+###
+# DEVICE show page
+GET {{baseUrl}}/api/device/{{deviceID}} HTTP/1.1
+content-type: application/json
+
+###
+# DEVICE update existing device
+PUT {{baseUrl}}/api/device/{{deviceID}}  HTTP/1.1
+content-type: application/json
+Accept: application/json
+
+{
+  "device": {
+    "product_id": 2,
+    "manufacturer_id": 1,
+    "serial_number": "11111111111111111111111111111111"
+  }
+}
+
+###
+# DEVICE Delete an existing device by id
+DELETE {{baseUrl}}/api/device/{{deviceID}} HTTP/1.1
+content-type: application/json
+
+
+
+####################################################
+################## DEVICES FILES ###################
+####################################################
+
+###
+# Show all files for a device by id
+GET {{baseUrl}}/api/device/{{deviceID}}/file HTTP/1.1
+content-type: application/json
+
+###
+# Insert a new file for the device
+POST {{baseUrl}}/api/device/{{deviceID}}/file HTTP/1.1
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary
+
+------WebKitFormBoundary
+Content-Disposition: form-data; name="file"; filename="3_file2.jpg"
+Content-Type: image/jpg
+
+< ./poop.jpg
+------WebKitFormBoundary
+
+###
+# Update an existing image for a device
+POST {{baseUrl}}/api/device/{{deviceID}}/file/{{fileID}} HTTP/1.1
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary
+
+------WebKitFormBoundary
+Content-Disposition: form-data; name="file"; filename="updated_file.jpg"
+Content-Type: image/jpg
+
+< ./poop.jpg
+------WebKitFormBoundary
+
+###
+# Show specific file for a device by id
+GET {{baseUrl}}/api/device/{{deviceID}}/file/{{fileID}} HTTP/1.1
+content-type: application/json
+
+###
+# Delete a specific file for a a specific device
+DELETE {{baseUrl}}/api/device/{{deviceID}}/file/{{fileID}} HTTP/1.1
+content-type: application/json
